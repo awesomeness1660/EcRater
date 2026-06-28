@@ -3,323 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EC Rater — Know Where You Stand</title>
+<title>EC Rater — Down for Maintenance</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --green:#5C7A62;--green-dark:#3D5C42;--green-light:#EBF0EC;--green-mid:#B5C9B8;--green-bright:#7A9E82;
-  --white:#FFFFFF;--off:#F5F8F5;--g100:#EDF1EE;--g300:#C8D4CA;--g500:#7A9080;--g700:#3A4F3D;--black:#1A2B1D;
-  --font-d:'Instrument Serif',serif;--font-b:'Inter',sans-serif;--tr:0.3s cubic-bezier(.4,0,.2,1);
+  --green:#5C7A62;--green-dark:#3D5C42;--green-light:#EBF0EC;--green-mid:#B5C9B8;
+  --off:#F5F8F5;--g300:#C8D4CA;--g500:#7A9080;--black:#1A2B1D;
+  --font-d:'Instrument Serif',serif;--font-b:'Inter',sans-serif;
 }
-html{scroll-behavior:smooth;}
-body{font-family:var(--font-b);background:var(--off);color:var(--black);overflow-x:hidden;}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;background:rgba(245,248,245,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--green-mid);}
-.nav-logo{font-family:var(--font-d);font-size:1.35rem;color:var(--green);cursor:pointer;}
-.nav-logo span{color:var(--black);}
-.nav-links{display:flex;align-items:center;gap:1.75rem;}
-.nav-link{font-size:.85rem;color:var(--g500);cursor:pointer;transition:var(--tr);}
-.nav-link:hover{color:var(--green);}
-.nav-cta{font-size:.82rem;font-weight:600;color:var(--white);background:var(--green);padding:8px 18px;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);}
-.nav-cta:hover{background:var(--green-dark);transform:translateY(-1px);}
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7rem 2rem 5rem;text-align:center;position:relative;overflow:hidden;}
-.hero-bg-canvas{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;animation:orbFloat 8s ease-in-out infinite;}
-.orb1{width:500px;height:500px;background:radial-gradient(circle,#8FAF94,transparent);top:-100px;left:-100px;animation-delay:0s;}
-.orb2{width:400px;height:400px;background:radial-gradient(circle,#B5C9B8,transparent);top:30%;right:-80px;animation-delay:-3s;}
-.orb3{width:350px;height:350px;background:radial-gradient(circle,#7A9E82,transparent);bottom:-80px;left:30%;animation-delay:-5s;}
-.orb4{width:280px;height:280px;background:radial-gradient(circle,#C8D4CA,transparent);top:60%;left:10%;animation-delay:-2s;}
-.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(92,122,98,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(92,122,98,.15) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 20%,transparent 75%);}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--green);background:var(--green-light);border:1px solid var(--green-mid);padding:5px 14px;border-radius:20px;margin-bottom:2rem;opacity:0;animation:fadeUp .6s .1s forwards;position:relative;z-index:1;}
-.hero h1{font-family:var(--font-d);font-size:clamp(3rem,8vw,6rem);line-height:1.02;letter-spacing:-.035em;max-width:820px;margin-bottom:1.5rem;opacity:0;animation:fadeUp .6s .2s forwards;position:relative;z-index:1;}
-.hero h1 em{font-style:italic;color:var(--green);}
-.hero-sub{font-size:1.1rem;color:var(--g500);max-width:500px;line-height:1.7;margin-bottom:2.5rem;opacity:0;animation:fadeUp .6s .3s forwards;position:relative;z-index:1;}
-.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:white;font-size:.95rem;font-weight:600;padding:14px 28px;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);opacity:0;animation:fadeUp .6s .4s forwards;position:relative;z-index:1;}
-.btn-primary:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 8px 28px rgba(92,122,98,.35);}
-.hero-stats{display:flex;gap:3.5rem;margin-top:4.5rem;opacity:0;animation:fadeUp .6s .55s forwards;position:relative;z-index:1;}
-.stat{text-align:center;}
-.stat-num{font-family:var(--font-d);font-size:2.2rem;color:var(--green);line-height:1;}
-.stat-label{font-size:.72rem;color:var(--g500);letter-spacing:.06em;text-transform:uppercase;margin-top:4px;}
-.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeUp .5s 1.1s forwards;z-index:1;}
-.scroll-hint span{font-size:.68rem;color:var(--g500);letter-spacing:.1em;text-transform:uppercase;}
-.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--green),transparent);animation:scrollPulse 1.6s ease-in-out infinite;}
-.rater-section{padding:6rem 2rem;max-width:780px;margin:0 auto;position:relative;}
-.rater-section::before{content:'';position:absolute;top:-100px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(92,122,98,.06),transparent);border-radius:50%;pointer-events:none;}
-.section-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:.85rem;}
-.section-title{font-family:var(--font-d);font-size:clamp(2rem,4.5vw,3rem);line-height:1.08;letter-spacing:-.025em;margin-bottom:.75rem;}
-.section-title em{font-style:italic;color:var(--green);}
-.section-sub{font-size:1rem;color:var(--g500);max-width:520px;line-height:1.65;margin-bottom:2.5rem;}
-.input-card{background:var(--white);border:1px solid var(--green-mid);border-radius:20px;padding:2rem;box-shadow:0 4px 24px rgba(92,122,98,.08);transition:var(--tr);}
-.input-card:focus-within{border-color:var(--green);box-shadow:0 4px 32px rgba(92,122,98,.16);}
-.input-label{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--g700);margin-bottom:.5rem;display:block;}
-.ec-textarea{width:100%;min-height:130px;padding:14px 16px;border:1px solid var(--g300);border-radius:10px;font-family:var(--font-b);font-size:.95rem;color:var(--black);background:var(--off);resize:vertical;outline:none;transition:var(--tr);line-height:1.6;margin-bottom:1rem;}
-.ec-textarea:focus{border-color:var(--green);background:var(--white);}
-.ec-textarea::placeholder{color:var(--g300);}
-.input-row{display:flex;gap:1rem;margin-bottom:1.25rem;}
-.input-group{flex:1;display:flex;flex-direction:column;gap:6px;}
-.char-hint{font-size:.75rem;color:var(--g500);text-align:right;margin-top:-6px;margin-bottom:1rem;}
-.submit-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:.5rem;}
-.submit-hint{font-size:.8rem;color:var(--g500);display:flex;align-items:center;gap:6px;}
-.rate-btn{display:flex;align-items:center;gap:10px;background:var(--green);color:white;font-family:var(--font-b);font-size:.95rem;font-weight:600;padding:13px 26px;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);}
-.rate-btn:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(92,122,98,.4);}
-.rate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-#college-input{width:100%;padding:10px 14px;border:1px solid var(--g300);border-radius:8px;font-family:var(--font-b);font-size:.88rem;color:var(--black);background:var(--off);outline:none;transition:var(--tr);}
-#college-input:focus{border-color:var(--green);background:var(--white);}
-#college-input::placeholder{color:var(--g300);}
-.college-suggestions{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:50;background:var(--white);border:1px solid var(--green-mid);border-radius:10px;box-shadow:0 8px 24px rgba(92,122,98,.12);max-height:200px;overflow-y:auto;display:none;}
-.college-suggestions.open{display:block;}
-.suggestion-item{padding:9px 14px;font-size:.87rem;color:var(--g700);cursor:pointer;transition:var(--tr);}
-.suggestion-item:hover{background:var(--green-light);color:var(--green);}
-.college-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-.college-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-light);border:1px solid var(--green-mid);color:var(--green);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:20px;}
-.tag-remove{cursor:pointer;font-size:.9rem;line-height:1;opacity:.7;}
-.tag-remove:hover{opacity:1;}
-.loading-wrap{display:none;text-align:center;padding:3rem 2rem;}
-.loading-wrap.active{display:block;}
-.loading-spinner{width:48px;height:48px;border:3px solid var(--green-light);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1.25rem;}
-.loading-steps{display:flex;flex-direction:column;gap:8px;max-width:260px;margin:1.25rem auto 0;}
-.lstep{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--g500);opacity:.35;transition:opacity .4s;}
-.lstep.active{opacity:1;color:var(--black);}
-.lstep.done{opacity:1;color:var(--green);}
-.ldot{width:7px;height:7px;border-radius:50%;background:var(--g300);flex-shrink:0;transition:background .4s;}
-.lstep.active .ldot{background:var(--green);animation:pulse 1s infinite;}
-.lstep.done .ldot{background:var(--green);}
-.results-wrap{display:none;margin-top:2rem;animation:fadeUp .5s forwards;}
-.results-wrap.active{display:block;}
-.score-card{background:var(--white);border:1px solid var(--green-mid);border-radius:16px;padding:1.75rem 2rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1.5rem;}
-.score-ring{width:90px;height:90px;flex-shrink:0;border-radius:50%;border:3px solid var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.score-num{font-family:var(--font-d);font-size:2.2rem;color:var(--green);line-height:1;}
-.score-den{font-size:.62rem;color:var(--g500);}
-.score-info{flex:1;}
-.verdict-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:6px;}
-.badge-strong{background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7;}
-.badge-solid{background:#FFF9C4;color:#F57F17;border:1px solid #FFE082;}
-.badge-weak{background:#FDECEA;color:#C62828;border:1px solid #FFCDD2;}
-.score-tier{font-family:var(--font-d);font-size:1.5rem;margin-bottom:4px;}
-.score-summary{font-size:.85rem;color:var(--g500);line-height:1.55;}
-.tab-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
-.tab-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:50px;border:1.5px solid var(--g300);background:var(--white);font-family:var(--font-b);font-size:.82rem;font-weight:600;color:var(--g500);cursor:pointer;transition:var(--tr);}
-.tab-btn:hover{border-color:var(--green-mid);color:var(--green);}
-.tab-btn.active{background:var(--green);border-color:var(--green);color:white;}
-.tab-panel{display:none;}
-.tab-panel.active{display:block;animation:fadeUp .3s ease;}
-.panel-card{background:var(--white);border:1px solid var(--g300);border-radius:14px;padding:1.5rem;}
-.panel-title{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:.85rem;}
-.panel-text{font-size:.9rem;color:var(--g700);line-height:1.7;}
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.bar-label{font-size:.8rem;color:var(--g700);width:130px;flex-shrink:0;}
-.bar-track{flex:1;height:7px;background:var(--g100);border-radius:4px;overflow:hidden;}
-.bar-fill{height:100%;background:var(--green);border-radius:4px;width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1);}
-.bar-pct{font-size:.78rem;color:var(--g500);width:32px;text-align:right;}
-.improve-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.improve-list li{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--g700);line-height:1.6;}
-.improve-num{width:24px;height:24px;border-radius:50%;background:var(--green-light);border:1px solid var(--green-mid);color:var(--green);font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.compare-box{background:var(--g100);border-radius:10px;padding:1.1rem 1.25rem;font-size:.88rem;color:var(--g700);line-height:1.65;margin-bottom:1rem;}
-.sources-chip{background:var(--g100);border-radius:8px;padding:.6rem .9rem;font-size:.76rem;color:var(--g500);margin-top:.75rem;}
-.reset-btn{display:flex;align-items:center;gap:6px;margin-top:1.5rem;background:var(--white);border:1.5px solid var(--green-mid);color:var(--green);font-family:var(--font-b);font-size:.88rem;font-weight:600;padding:10px 20px;border-radius:50px;cursor:pointer;transition:var(--tr);}
-.reset-btn:hover{background:var(--green-light);}
-.about-section{padding:6rem 2rem;background:var(--black);color:var(--white);position:relative;overflow:hidden;}
-.about-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 10% 50%,rgba(92,122,98,.25) 0%,transparent 60%);pointer-events:none;}
-.about-section::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 40% 50% at 90% 80%,rgba(122,158,130,.12) 0%,transparent 60%);pointer-events:none;}
-.about-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;position:relative;z-index:1;}
-.about-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green-mid);margin-bottom:1rem;}
-.about-title{font-family:var(--font-d);font-size:clamp(2rem,4vw,3rem);line-height:1.08;letter-spacing:-.025em;margin-bottom:1.5rem;}
-.about-title em{font-style:italic;color:var(--green-bright);}
-.about-body{font-size:.95rem;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.25rem;}
-.about-sig{display:flex;align-items:center;gap:12px;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);}
-.sig-avatar{width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:1rem;color:white;flex-shrink:0;}
-.sig-name{font-weight:600;font-size:.9rem;}
-.sig-role{font-size:.78rem;color:rgba(255,255,255,.5);}
-.about-right{display:flex;flex-direction:column;gap:1rem;}
-.about-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:1.35rem 1.5rem;transition:var(--tr);}
-.about-card:hover{background:rgba(92,122,98,.18);border-color:rgba(92,122,98,.4);}
-.about-card-icon{font-size:1.4rem;margin-bottom:.6rem;}
-.about-card-title{font-weight:600;font-size:.92rem;margin-bottom:.35rem;}
-.about-card-text{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6;}
-.final-cta{padding:5rem 2rem;text-align:center;background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);color:white;position:relative;overflow:hidden;}
-.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80% 20%,rgba(255,255,255,.07) 0%,transparent 60%);}
-.final-cta h2{font-family:var(--font-d);font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;letter-spacing:-.03em;margin-bottom:1rem;position:relative;}
-.final-cta p{font-size:1rem;opacity:.8;max-width:420px;margin:0 auto 2.5rem;line-height:1.65;position:relative;}
-.btn-white{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--green-dark);font-weight:700;font-size:.95rem;padding:14px 30px;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);position:relative;}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.2);}
-footer{text-align:center;padding:2rem;border-top:1px solid var(--green-light);font-size:.78rem;color:var(--g500);}
-.footer-logo{font-family:var(--font-d);font-size:1.1rem;color:var(--green);margin-bottom:.4rem;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
-@keyframes scrollPulse{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(30px,-20px) scale(1.05);}66%{transform:translate(-20px,15px) scale(.97);}}
-.fade-in{opacity:0;transform:translateY(24px);transition:opacity .65s,transform .65s;}
-.fade-in.visible{opacity:1;transform:none;}
-@media(max-width:660px){.about-inner{grid-template-columns:1fr;}.hero-stats{gap:2rem;}.score-card{flex-direction:column;text-align:center;}.input-row{flex-direction:column;}nav .nav-links{display:none;}}
+html,body{height:100%;}
+body{font-family:var(--font-b);background:var(--off);color:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:2rem;position:relative;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:orbFloat 8s ease-in-out infinite;pointer-events:none;}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,#8FAF94,transparent);top:-150px;left:-150px;animation-delay:0s;}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,#B5C9B8,transparent);bottom:-100px;right:-100px;animation-delay:-4s;}
+.logo{font-family:var(--font-d);font-size:1.5rem;color:var(--green);position:absolute;top:1.5rem;left:50%;transform:translateX(-50%);}
+.logo span{color:var(--black);}
+.icon{width:80px;height:80px;border-radius:50%;border:2px solid var(--green-mid);background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 2rem;animation:float 3s ease-in-out infinite;position:relative;z-index:1;}
+h1{font-family:var(--font-d);font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-.03em;line-height:1.1;margin-bottom:1rem;position:relative;z-index:1;}
+h1 em{font-style:italic;color:var(--green);}
+p{font-size:1rem;color:var(--g500);max-width:400px;line-height:1.7;margin-bottom:2rem;position:relative;z-index:1;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-light);border:1px solid var(--green-mid);color:var(--green);font-size:.78rem;font-weight:600;padding:8px 18px;border-radius:50px;letter-spacing:.04em;position:relative;z-index:1;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
+.footer{position:absolute;bottom:1.5rem;font-size:.75rem;color:var(--g300);}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+@keyframes orbFloat{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-20px);}}
 </style>
 </head>
 <body>
-<nav>
-  <div class="nav-logo" onclick="navScroll('hero')">EC<span>Rater</span></div>
-  <div class="nav-links">
-    <span class="nav-link" onclick="navScroll('rater')">Rate My EC</span>
-    <span class="nav-link" onclick="navScroll('about')">About</span>
-  </div>
-  <button class="nav-cta" onclick="navScroll('rater')">Get My Rating →</button>
-</nav>
-<section class="hero" id="hero">
-  <div class="hero-bg-canvas">
-    <div class="orb orb1"></div><div class="orb orb2"></div>
-    <div class="orb orb3"></div><div class="orb orb4"></div>
-  </div>
-  <div class="hero-grid"></div>
-  <div class="hero-eyebrow">✦ Free · Honest · No Sugarcoating</div>
-  <h1>Your EC deserves a<br><em>real</em> opinion</h1>
-  <p class="hero-sub">Most students go into college apps not knowing if their extracurriculars are impressive or just okay. We fix that — with honesty, not flattery.</p>
-  <button class="btn-primary" onclick="navScroll('rater')">Rate my extracurricular <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Honest</div></div>
-    <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Always</div></div>
-    <div class="stat"><div class="stat-num">AI</div><div class="stat-label">Powered</div></div>
-  </div>
-  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
-</section>
-<section class="rater-section fade-in" id="rater">
-  <div class="section-eyebrow">The Rater</div>
-  <h2 class="section-title">Describe your EC.<br>Get the <em>truth</em>.</h2>
-  <p class="section-sub">Fill in the details below and hit Rate. We'll give you a score, a breakdown, and specific steps to improve — no fluff.</p>
-  <div class="input-card">
-    <label class="input-label">Describe your extracurricular</label>
-    <textarea class="ec-textarea" id="ec-input" maxlength="1000" placeholder="Example: I'm captain of my school's robotics team. We've been competing for 3 years, won regionals twice, and I lead a team of 12. I practice 10 hours a week and I'm applying to MIT and Carnegie Mellon..."></textarea>
-    <div class="char-hint"><span id="char-count">0</span>/1000</div>
-    <div class="input-row">
-      <div class="input-group" style="flex:1;position:relative;">
-        <label class="input-label">Target College(s)</label>
-        <input type="text" id="college-input" placeholder="Type a college name, e.g. MIT, Harvard, Duke..." autocomplete="off" oninput="filterColleges(this.value)" onblur="setTimeout(()=>closeSuggestions(),200)">
-        <div id="college-suggestions" class="college-suggestions"></div>
-      </div>
-    </div>
-    <div id="college-tags" class="college-tags"></div>
-    <div class="submit-row">
-      <div class="submit-hint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Powered by Claude AI</div>
-      <button class="rate-btn" id="rate-btn" onclick="submitRating()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Rate My EC</button>
-    </div>
-  </div>
-  <div class="loading-wrap" id="loading-wrap">
-    <div class="loading-spinner"></div>
-    <p style="font-weight:600;margin-bottom:4px;">Analyzing your EC...</p>
-    <p style="font-size:.85rem;color:var(--g500);">Comparing to real admitted students</p>
-    <div class="loading-steps">
-      <div class="lstep" id="ls1"><div class="ldot"></div>Searching admissions data</div>
-      <div class="lstep" id="ls2"><div class="ldot"></div>Finding similar past applicants</div>
-      <div class="lstep" id="ls3"><div class="ldot"></div>Benchmarking against admits</div>
-      <div class="lstep" id="ls4"><div class="ldot"></div>Building your honest rating</div>
-    </div>
-  </div>
-  <div class="results-wrap" id="results-wrap">
-    <div class="score-card">
-      <div class="score-ring"><div class="score-num" id="r-score">—</div><div class="score-den">/ 10</div></div>
-      <div class="score-info">
-        <div class="verdict-badge" id="r-badge">—</div>
-        <div class="score-tier" id="r-tier">—</div>
-        <div class="score-summary" id="r-summary">—</div>
-      </div>
-    </div>
-    <div class="tab-row">
-      <button class="tab-btn active" onclick="showTab('verdict',this)">🎯 Verdict</button>
-      <button class="tab-btn" onclick="showTab('breakdown',this)">📊 Breakdown</button>
-      <button class="tab-btn" onclick="showTab('improve',this)">📈 How to Improve</button>
-      <button class="tab-btn" onclick="showTab('compare',this)">🎓 vs. Admitted Students</button>
-    </div>
-    <div class="tab-panel active" id="tab-verdict"><div class="panel-card"><div class="panel-title">The Honest Verdict</div><div class="panel-text" id="r-verdict">—</div></div></div>
-    <div class="tab-panel" id="tab-breakdown"><div class="panel-card"><div class="panel-title">Strength Breakdown</div><div id="r-bars"></div></div></div>
-    <div class="tab-panel" id="tab-improve"><div class="panel-card"><div class="panel-title">How to Strengthen This EC</div><ul class="improve-list" id="r-improve"></ul></div></div>
-    <div class="tab-panel" id="tab-compare"><div class="panel-card"><div class="panel-title">Compared to Admitted Students</div><div class="compare-box" id="r-compare">—</div><div class="sources-chip" id="r-sources"></div></div></div>
-    <button class="reset-btn" onclick="resetForm()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> Rate another EC</button>
-  </div>
-</section>
-<section class="about-section fade-in" id="about">
-  <div class="about-inner">
-    <div class="about-left">
-      <div class="about-eyebrow">About EC Rater</div>
-      <h2 class="about-title">Built by a student,<br>for <em>every</em> student</h2>
-      <p class="about-body">I built EC Rater because I was frustrated. Every college prep resource either gave empty encouragement or vague advice. Nobody would just tell me the truth about whether my extracurriculars were actually good enough.</p>
-      <p class="about-body">So I built the tool I wished I had. EC Rater uses real AI to compare your EC to real students who got in. It respects you enough to be honest, and cares enough to show you how to improve.</p>
-      <p class="about-body">100% free, built with passion, made for every student who just wants to know where they actually stand.</p>
-      <div class="about-sig">
-        <div class="sig-avatar">B</div>
-        <div><div class="sig-name">BerksCode</div><div class="sig-role">Builder · Student · Believer in honesty</div></div>
-      </div>
-    </div>
-    <div class="about-right">
-      <div class="about-card"><div class="about-card-icon">🎯</div><div class="about-card-title">Radical honesty</div><div class="about-card-text">We don't tell you what you want to hear. We tell you what you need to hear — because that's actually useful.</div></div>
-      <div class="about-card"><div class="about-card-icon">🔍</div><div class="about-card-title">Real data, every time</div><div class="about-card-text">Ratings are based on real admissions patterns, past applicant outcomes, and what colleges actually look for.</div></div>
-      <div class="about-card"><div class="about-card-icon">💸</div><div class="about-card-title">Free forever</div><div class="about-card-text">College prep advice shouldn't cost $200/hr. Every student deserves honest feedback, not just those who can afford it.</div></div>
-      <div class="about-card"><div class="about-card-icon">🚀</div><div class="about-card-title">Always improving</div><div class="about-card-text">Built by a student who's still learning. New features and better ratings — constantly.</div></div>
-    </div>
-  </div>
-</section>
-<section class="final-cta fade-in">
-  <h2>Ready to know the truth?</h2>
-  <p>Stop guessing. Get your honest EC rating in under 2 minutes — completely free, no signup needed.</p>
-  <button class="btn-white" onclick="navScroll('rater')">Rate my EC now →</button>
-</section>
-<footer>
-  <div class="footer-logo">ECRater</div>
-  <p>Built with passion by <strong>BerksCode</strong> · Free for all students · Not affiliated with any college or university</p>
-</footer>
-<script>
-const ta=document.getElementById('ec-input');
-ta.addEventListener('input',()=>{document.getElementById('char-count').textContent=ta.value.length;});
-const COLLEGES=["Harvard University","MIT","Stanford University","Yale University","Princeton University","Columbia University","University of Pennsylvania","Brown University","Dartmouth College","Cornell University","Duke University","Johns Hopkins University","Northwestern University","Vanderbilt University","Rice University","Washington University in St. Louis","Notre Dame","Georgetown University","Emory University","Carnegie Mellon University","UC Berkeley","UCLA","University of Michigan","University of Virginia","UNC Chapel Hill","Georgia Tech","University of Florida","University of Texas at Austin","Penn State","Ohio State University","Purdue University","University of Illinois Urbana-Champaign","University of Wisconsin-Madison","University of Washington","USC","Boston University","Boston College","Tufts University","Northeastern University","NYU","Fordham University","Wake Forest University","Tulane University","Case Western Reserve University","University of Rochester","Rensselaer Polytechnic Institute","Lehigh University","Villanova University","University of Pittsburgh","Indiana University","Rutgers University","University of Maryland","University of Georgia","University of Minnesota","Michigan State University","University of Arizona","Arizona State University","University of Colorado Boulder","University of Oregon","University of Miami","Syracuse University","American University","George Washington University","Howard University","Spelman College","Morehouse College","Hampton University","Cal Tech","Harvey Mudd College","Pomona College","Claremont McKenna College","Swarthmore College","Williams College","Amherst College","Wellesley College","Bowdoin College","Middlebury College","Colgate University","Colby College","Hamilton College","Trinity College","Connecticut College","Bates College"];
-let selectedColleges=[];
-function filterColleges(val){const box=document.getElementById('college-suggestions');if(!val||val.length<1){box.classList.remove('open');return;}const matches=COLLEGES.filter(c=>c.toLowerCase().includes(val.toLowerCase())&&!selectedColleges.includes(c)).slice(0,6);if(!matches.length){box.classList.remove('open');return;}box.innerHTML=matches.map(c=>`<div class="suggestion-item" onmousedown="addCollege('${c}')">${c}</div>`).join('');box.classList.add('open');}
-function addCollege(name){if(selectedColleges.includes(name)||selectedColleges.length>=5)return;selectedColleges.push(name);document.getElementById('college-input').value='';closeSuggestions();renderTags();}
-function removeCollege(name){selectedColleges=selectedColleges.filter(c=>c!==name);renderTags();}
-function renderTags(){document.getElementById('college-tags').innerHTML=selectedColleges.map(c=>`<span class="college-tag">${c}<span class="tag-remove" onclick="removeCollege('${c}')">✕</span></span>`).join('');}
-function closeSuggestions(){document.getElementById('college-suggestions').classList.remove('open');}
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
-document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
-function navScroll(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
-function showTab(name,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');btn.classList.add('active');}
-async function submitRating(){
-  const desc=ta.value.trim();
-  if(desc.length<30){ta.style.borderColor='var(--green)';ta.focus();setTimeout(()=>ta.style.borderColor='',2000);return;}
-  const colleges=selectedColleges.length?selectedColleges.join(', '):'Not specified';
-  document.querySelector('.input-card').style.opacity='.4';
-  document.getElementById('rate-btn').disabled=true;
-  document.getElementById('loading-wrap').classList.add('active');
-  document.getElementById('results-wrap').classList.remove('active');
-  const steps=['ls1','ls2','ls3','ls4'];let si=0;
-  steps.forEach(s=>{document.getElementById(s).classList.remove('active','done');});
-  document.getElementById(steps[0]).classList.add('active');
-  const stepsTimer=setInterval(()=>{document.getElementById(steps[si]).classList.replace('active','done');si++;if(si<steps.length)document.getElementById(steps[si]).classList.add('active');else clearInterval(stepsTimer);},900);
-  const prompt=`You are an honest college admissions expert rating a student's extracurricular activity. Be truthful but kind.\n\nEC Description: "${desc}"\nTarget Colleges: ${colleges}\n\nRespond ONLY with valid JSON (no markdown, no extra text):\n{"score":<1-10>,"tier":"<Spike|Strong|Solid|Average|Below Average>","badge":"<strong|solid|weak>","summary":"<2-3 honest sentences>","verdict":"<2-3 sentences of real honest truth about this EC for their target schools>","strengths":[{"label":"<label>","pct":<0-100>},{"label":"<label>","pct":<0-100>},{"label":"<label>","pct":<0-100>}],"improvements":["<specific step 1>","<specific step 2>","<specific step 3>","<specific step 4>"],"comparison":"<1-2 sentences comparing to typical admitted students at their target schools>","sources_note":"<mention types of data referenced>"}`;
-  try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
-    const data=await res.json();let text='';if(data.content)for(const b of data.content)if(b.type==='text')text+=b.text;
-    const match=text.match(/\{[\s\S]*\}/);if(!match)throw new Error('no json');
-    const r=JSON.parse(match[0]);clearInterval(stepsTimer);setTimeout(()=>showResults(r),400);
-  }catch(e){clearInterval(stepsTimer);showFallback();}
-}
-function showResults(r){
-  document.getElementById('loading-wrap').classList.remove('active');
-  document.querySelector('.input-card').style.opacity='1';
-  document.getElementById('r-score').textContent=r.score;
-  document.getElementById('r-tier').textContent=r.tier||'';
-  document.getElementById('r-summary').textContent=r.summary||'';
-  const badge=document.getElementById('r-badge');
-  badge.textContent=r.badge==='strong'?'Strong EC':r.badge==='solid'?'Solid EC':'Needs Work';
-  badge.className='verdict-badge '+(r.badge==='strong'?'badge-strong':r.badge==='solid'?'badge-solid':'badge-weak');
-  document.getElementById('r-verdict').textContent=r.verdict||'';
-  document.getElementById('r-bars').innerHTML=(r.strengths||[]).map(s=>`<div class="bar-row"><span class="bar-label">${esc(s.label)}</span><div class="bar-track"><div class="bar-fill" data-pct="${s.pct}"></div></div><span class="bar-pct">${s.pct}%</span></div>`).join('');
-  document.getElementById('r-improve').innerHTML=(r.improvements||[]).map((imp,i)=>`<li><span class="improve-num">${i+1}</span>${esc(imp)}</li>`).join('');
-  document.getElementById('r-compare').textContent=r.comparison||'';
-  document.getElementById('r-sources').textContent=r.sources_note?'🔍 '+r.sources_note:'';
-  document.getElementById('results-wrap').classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
-  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===0));
-  setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.pct+'%';});document.getElementById('results-wrap').scrollIntoView({behavior:'smooth',block:'start'});},200);
-}
-function showFallback(){showResults({score:5,tier:'Solid',badge:'solid',summary:"Based on what you shared, here's an honest assessment of your extracurricular.",verdict:"Your EC shows real commitment. To stand out at selective schools, focus on demonstrating concrete impact and leadership. The more specific your achievements, the stronger your application story.",strengths:[{label:"Commitment",pct:60},{label:"Impact",pct:50},{label:"Uniqueness",pct:45}],improvements:["Quantify your impact with specific numbers","Pursue a formal leadership role if you haven't already","Connect your EC to a larger mission or community benefit","Document achievements for your application"],comparison:"Students admitted to selective schools typically show multi-year involvement with clear leadership and measurable impact.",sources_note:"Based on general admissions knowledge. For live data, check r/ApplyingToCollege and College Confidential."});}
-function resetForm(){ta.value='';document.getElementById('char-count').textContent='0';document.getElementById('results-wrap').classList.remove('active');document.getElementById('loading-wrap').classList.remove('active');document.querySelector('.input-card').style.opacity='1';document.getElementById('rate-btn').disabled=false;selectedColleges=[];renderTags();document.getElementById('college-input').value='';document.getElementById('rater').scrollIntoView({behavior:'smooth'});}
-function esc(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-</script>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="logo">EC<span>Rater</span></div>
+<div class="icon">🔧</div>
+<h1>We'll be back <em>soon</em></h1>
+<p>EC Rater is currently down for maintenance. We're fixing a few things to make your experience better. Check back shortly!</p>
+<div class="badge"><span class="dot"></span> Currently fixing issues — back soon</div>
+<div class="footer">by BerksCode</div>
 </body>
 </html>
